@@ -1,0 +1,27 @@
+.zipcode {
+  stroke: black;
+  stroke-width: 1px;
+}
+
+.legend--frame {
+  stroke: black;
+  fill: lightgray;
+}
+
+.legend--item--box {
+  stroke: black;
+  fill: none;
+}
+
+.legend--item--label {
+  font-family: Helvetica;
+  fill: black;
+  alignment-baseline: central;
+}
+
+.label {
+  fill: black;
+  font-family: Helvetica;
+  font-size: 14px;
+  text-anchor: middle;
+}
