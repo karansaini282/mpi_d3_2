@@ -8,7 +8,7 @@ var MAP_URL2 = "https://raw.githubusercontent.com/karansaini282/out_repo/master/
 var MAP_URL3 = "https://raw.githubusercontent.com/karansaini282/out_repo/master/d3_puma_ny.geojson";
 var MAP_URL4 = "https://raw.githubusercontent.com/karansaini282/out_repo/master/d3_puma_chic.geojson";
 
-createChart('ny',false,'','36_701');
+createChart('ny',false,'','36_3710');
 
 
 function createChart(city,is_color,color,puma_id) {
@@ -35,10 +35,6 @@ function createChart(city,is_color,color,puma_id) {
   var path = d3.geoPath()
     .projection(projection);
   
-//   gMap.on('click',function(){
-//     createChart(city,is_color,color,true,projection.invert(d3.mouse(this)),zoom_no+1,puma_id);
-//   });
-  
   // Let's create a path for each (new) zipcode shape
   gMap.selectAll(".zipcode")
   .remove();
@@ -48,7 +44,7 @@ function createChart(city,is_color,color,puma_id) {
   var city_data_dict = {'sf':MAP_URL2,'la':MAP_URL1,'ny':MAP_URL3,'chic':MAP_URL4};
   var city_data_url = city_data_dict[city];
     
-  var city_puma_dict = {'sf':'06_101','la':'06_3701','ny':'36_701','chic':'17_3005'};
+  var city_puma_dict = {'sf':'06_101','la':'06_3701','ny':'36_3710','chic':'17_3005'};
   
   d3.json(city_data_url).then(map_data=>  
   {
@@ -88,7 +84,7 @@ function createChart(city,is_color,color,puma_id) {
         .style("fill", "white");
 
     if(is_color){
-      plot_data = data.filter(d=>d.origin_puma==puma_id).filter(d=>d.color==color);
+      plot_data = data.filter(d=>d.origin_puma==puma_id).filter(d=>((d.color==color)||(d.dest_puma==puma_id)));
     }
 
     gMap.selectAll(".zipcode")
@@ -139,13 +135,13 @@ function createChart(city,is_color,color,puma_id) {
 
     var net_dist = {'chic':['0:5000',  '5000:10000',   '10000:25000',      '25000:50000',    '50000:100000',   '100000:249000'],'sf':['0:5000',  '5000:10000',   '10000:25000',      '25000:50000',    '50000:100000',   '100000:294000'],'la':['0:5000',  '5000:10000',   '10000:25000',      '25000:50000',    '50000:100000',   '100000:533000'],'ny':['0:5000',  '5000:10000',   '10000:25000',      '25000:50000',    '50000:100000',   '100000:723000']};
 
-    var pArea3 = [50, 50, 390, 460];
-    var pSize3 = [pArea3[2]-pArea3[0], pArea3[3]-pArea3[1]];
-    var palette3 = ['green','lime','yellow','orange','red','darkred'];  
-    var legend3 = gMap2.append("g")
-      .attr("transform", `translate(10, ${pArea3[1]+100})`);
+    var pArea2 = [50, 50, 390, 460];
+    var pSize2 = [pArea2[2]-pArea2[0], pArea2[3]-pArea2[1]];
+    var palette2 = ['green','lime','yellow','orange','red','darkred'];  
+    var legend2 = gMap2.append("g")
+      .attr("transform", `translate(10, ${pArea2[1]+100})`);
 
-    legend3.append("rect")
+    legend2.append("rect")
       .attr("class", "legend--frame")
       .attr("x", -5)
       .attr("y", -5)
@@ -153,12 +149,44 @@ function createChart(city,is_color,color,puma_id) {
       .attr("height", 130)
       .on("click",(d,i)=>{createChart(city,false,'',puma_id);});
 
-    var legendItems3 = legend3.selectAll(".legend--item--box")
+    var legendItems2 = legend2.selectAll(".legend--item--box")
       .data(net_dist[city])
       .enter().append("g")
       .on("click", (d,i) => {
-        createChart(city,true,palette3[i],puma_id);
+        createChart(city,true,palette2[i],puma_id);
       });
+
+    legendItems2.append("rect")
+        .attr("class", "legend--item--box")
+        .attr("x", 0)
+        .attr("y", (d,i) => (i*20))
+        .attr("width", 10)
+        .attr("height", 10)
+        .style("fill", (d,i) => palette2[i]);
+
+    legendItems2.append("text")
+        .attr("class", "legend--item--label")
+        .attr("x", 20)
+        .attr("y", (d,i) => (9+i*20))
+        .attr('font-size','12px')
+        .text((d, i) => d);
+    
+    var pArea3 = [50, 50, 390, 100];
+    var pSize3 = [pArea3[2]-pArea3[0], pArea3[3]-pArea3[1]];
+    var palette3 = ['blue'];  
+    var legend3 = gMap2.append("g")
+      .attr("transform", `translate(10, ${pArea3[1]+232})`);
+
+    legend3.append("rect")
+      .attr("class", "legend--frame")
+      .attr("x", -5)
+      .attr("y", -5)
+      .attr("width", 110)
+      .attr("height", 20);
+
+    var legendItems3 = legend3.selectAll(".legend--item--box")
+      .data(['Current PUMA'])
+      .enter().append("g");
 
     legendItems3.append("rect")
         .attr("class", "legend--item--box")
@@ -173,7 +201,7 @@ function createChart(city,is_color,color,puma_id) {
         .attr("x", 20)
         .attr("y", (d,i) => (9+i*20))
         .attr('font-size','12px')
-        .text((d, i) => d);
+        .text((d, i) => d);    
     
     var pArea4 = [50, 50, 390, 460];
     var pSize4 = [pArea4[2]-pArea4[0], pArea4[3]-pArea4[1]];
@@ -184,7 +212,7 @@ function createChart(city,is_color,color,puma_id) {
     legend4.append("image")
       .attr("xlink:href", "https://raw.githubusercontent.com/karansaini282/out_repo/master/reset.jpg")
       .attr("x", -5)
-      .attr("y", -5)
+      .attr("y", 5)
       .attr("width", 120)
       .attr("height", 60)
       .on("click", (d,i) => {
