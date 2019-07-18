@@ -175,7 +175,7 @@ function createChart(city,is_color,color,puma_id) {
     var pSize3 = [pArea3[2]-pArea3[0], pArea3[3]-pArea3[1]];
     var palette3 = ['blue'];  
     var legend3 = gMap2.append("g")
-      .attr("transform", `translate(10, ${pArea3[1]+232})`);
+      .attr("transform", `translate(10, ${pArea3[1]+238})`);
 
     legend3.append("rect")
       .attr("class", "legend--frame")
@@ -207,7 +207,7 @@ function createChart(city,is_color,color,puma_id) {
     var pSize4 = [pArea4[2]-pArea4[0], pArea4[3]-pArea4[1]];
     
     var legend4 = gMap2.append("g")
-      .attr("transform", `translate(10, ${pArea4[1]+245})`);
+      .attr("transform", `translate(10, ${pArea4[1]+250})`);
 
     legend4.append("image")
       .attr("xlink:href", "https://raw.githubusercontent.com/karansaini282/out_repo/master/reset.jpg")
