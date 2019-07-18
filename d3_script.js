@@ -44,7 +44,7 @@ function createChart(city,is_color,color,puma_id) {
   var city_data_dict = {'sf':MAP_URL2,'la':MAP_URL1,'ny':MAP_URL3,'chic':MAP_URL4};
   var city_data_url = city_data_dict[city];
     
-  var city_puma_dict = {'sf':'06_101','la':'06_3701','ny':'36_3710','chic':'17_3005'};
+  var city_puma_dict = {'sf':'06_101','la':'06_5907','ny':'36_3710','chic':'17_3005'};
   
   d3.json(city_data_url).then(map_data=>  
   {
